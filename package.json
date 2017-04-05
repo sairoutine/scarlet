@@ -1,0 +1,22 @@
+{
+  "name": "scarlet",
+  "version": "0.0.0",
+  "description": "Scarlet is a game networking server and multiplayer platform by websocket and node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sairoutine/scarlet.git"
+  },
+  "author": "sairoutine",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sairoutine/scarlet/issues"
+  },
+  "homepage": "https://github.com/sairoutine/scarlet#readme",
+  "dependencies": {
+    "ws": "2.2.3"
+  }
+}
