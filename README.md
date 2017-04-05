@@ -6,7 +6,12 @@ Scarlet is a game networking server and multiplayer platform by websocket and no
 **WIP**
 
 ## How to use
-**WIP**
+```
+git clone git@github.com:sairoutine/scarlet.git
+cd scarlet
+npm install
+npm start
+```
 ## How to build
 **WIP**
 ## Roadmap
