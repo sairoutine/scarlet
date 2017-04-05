@@ -4,6 +4,8 @@
   "description": "Scarlet is a game networking server and multiplayer platform by websocket and node.js",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "cli": "wscat -c ws://localhost:8080",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,5 +20,8 @@
   "homepage": "https://github.com/sairoutine/scarlet#readme",
   "dependencies": {
     "ws": "2.2.3"
+  },
+  "devDependencies": {
+    "wscat": "2.0.0"
   }
 }
