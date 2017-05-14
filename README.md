@@ -51,6 +51,7 @@ Join the room someone created.
 SEND_DATA [room name] [data]
 ```
 Send your data to room clients.
+the clients which belongs to the room get `SENT [message]` event.
 
 ## EVENT
 events the clients are notified.
@@ -58,10 +59,18 @@ events the clients are notified.
 ```
 PUBLISHED [message]
 ```
+**WIP**
 
 ```
 ROOM_CLIENTS_LIMIT [room name]`
 ```
+**WIP**
+
+```
+SENT [message]
+```
+**WIP**
+
 
 
 
