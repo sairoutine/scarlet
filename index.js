@@ -38,9 +38,11 @@ var room_list = {
 
 };
 
+/*
+ * room ID to create room name.
+*/
 
-
-
+var room_id = 0;
 
 // a event which one of the client connects me
 wss.on('connection', function connection(ws) {
@@ -128,10 +130,9 @@ function publish (ws, argument_list) {
 }
 
 function create_room (ws, argument_list) {
-	var room_name        = argument_list[0];
-	var client_limit_num = argument_list[1];
+	var client_limit_num = argument_list[0];
 
-	if(!room_name) return;
+	var room_name = ++room_id; // create room name
 
 	if(room_list[room_name]) return; // TODO: error
 
@@ -145,6 +146,8 @@ function create_room (ws, argument_list) {
 	}
 
 	room_list[room_name].client_list.push(ws);
+
+	ws.send(create_command("SUCCEEDED_CREATE_ROOM", [room_name]));
 }
 
 // TODO: check the client joins the room twice.
