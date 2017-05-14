@@ -21,6 +21,7 @@ SUBSCRIBE [channel name]
 ```
 
 subscribe channel.
+NOTE: you can subscribe same channel you subscribed before.
 
 ```
 PUBLISH [channel name] [message]
