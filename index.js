@@ -1,4 +1,14 @@
 'use strict';
+
+var EVENT_NAME_TO_FUNCION = {
+	ping:        ping,
+	subscribe:   subscribe,
+	publish:     publish,
+	create_room: create_room,
+	join:        join,
+	send_data:   send_data,
+};
+
 var WebSocket = require('ws');
 
 var wss = new WebSocket.Server({ port: 8080 });
@@ -82,15 +92,6 @@ function create_command (event, argument_list) {
 
 
 
-
-var EVENT_NAME_TO_FUNCION = {
-	ping:        ping,
-	subscribe:   subscribe,
-	publish:     publish,
-	create_room: create_room,
-	join:        join,
-	send_data:   send_data,
-};
 
 function ping (ws, argument_list) {
 	ws.send(create_command("PONG", argument_list));
