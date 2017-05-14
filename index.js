@@ -11,10 +11,12 @@ wss.on('connection', function connection(ws) {
 
 		if (!parsed_data.event) return;
 
-		// TODO: create event name to function
-		//var func = EVENT_NAME_TO_FUNCION[ parsed_data.event ];
+		// event name to function
+		var func = EVENT_NAME_TO_FUNCION[ parsed_data.event.toLowerCase() ];
 
-		//func(ws, parsed_data.arguments);
+		if (!func) return;
+
+		func(ws, parsed_data.argument_list);
 
 		/*
 		// Broadcast to everyone else.
@@ -34,17 +36,31 @@ wss.on('connection', function connection(ws) {
 function parse_data (data) {
 	var parsed_data = {
 		event: null,
-		arguments: [],
+		argument_list: [],
 	};
 
 	if(!data) return parsed_data;
 
 	var splited_data = data.split(" ");
 
-	parsed_data.event     = splited_data.shift();
-	parsed_data.arguments = splited_data;
+	parsed_data.event         = splited_data.shift();
+	parsed_data.argument_list = splited_data;
 
 	return parsed_data;
+}
+
+
+var EVENT_NAME_TO_FUNCION = {
+	ping:        ping,
+	subscribe:   subscribe,
+	publish:     publish,
+	create_room: create_room,
+	join:        join,
+	send_data:   send_data,
+};
+
+function ping (ws, argument_list) {
+	ws.send("PONG");
 }
 
 function subscribe () {
