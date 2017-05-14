@@ -18,7 +18,7 @@ var channel_list = {
 wss.on('connection', function connection(ws) {
 	// a event which the client sends me
 	ws.on('message', function (data) {
-		var parsed_data = parse_data(data);
+		var parsed_data = parse_command(data);
 
 		if (!parsed_data.event) return;
 
@@ -35,7 +35,7 @@ wss.on('connection', function connection(ws) {
  * data format is "COMMAND ARGUMENTS".
  * ARGUMENTS are splited by space.
  */
-function parse_data (data) {
+function parse_command (data) {
 	var parsed_data = {
 		event: null,
 		argument_list: [],
