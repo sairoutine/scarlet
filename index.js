@@ -170,5 +170,21 @@ function join (ws, argument_list) {
 }
 
 function send_data (ws, argument_list) {
+	var room_name = argument_list[0];
+	var data      = argument_list[1];
 
+	if(!room_name) return;
+	if(!data)      return;
+
+	var room_data = room_list[room_name];
+
+	if(!room_data) return; // TODO: error
+
+	// TODO: unable to send if the client does not belong to the room.
+
+	room_data.client_list.forEach(function(client) {
+		if (client !== ws && client.readyState === WebSocket.OPEN) {
+			client.send(create_command("SENT", [data]));
+		}
+	});
 }
