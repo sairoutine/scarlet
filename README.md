@@ -19,12 +19,16 @@ npm start
 ```
 SUBSCRIBE [channel name]
 ```
-**WIP**
+
+subscribe channel.
 
 ```
-PUBLISH [channel name]
+PUBLISH [channel name] [message]
 ```
-**WIP**
+
+publish message to channel someone subscribes.
+NOTE: you can publish a channel you don't subscribe.
+
 
 ```
 CREATE_ROOM [room name] [clients limit]
