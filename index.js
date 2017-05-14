@@ -76,6 +76,17 @@ function subscribe (ws, argument_list) {
 }
 
 function publish (ws, argument_list) {
+	var channel_name = argument_list[0];
+	var message      = argument_list[1];
+
+	if(!channel_list[channel_name]) return;
+	if(!message) return;
+
+	channel_list[channel_name].forEach(function(client) {
+		if (client !== ws && client.readyState === WebSocket.OPEN) {
+			client.send(message);
+		}
+	});
 
 }
 
