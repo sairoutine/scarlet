@@ -5,14 +5,29 @@ var wss = new WebSocket.Server({ port: 8080 });
 
 // TODO: garbage collect the channel_list variables if the client disconnects.
 // TODO: implement: unsubscribe
-
+// TODO: ERROR event must be required
 /*
  * channel list
- * channel name -> subscribe clients list
+ * channel name -> WebSocket object list which subscribes channel
  */
 var channel_list = {
 
 };
+
+/*
+ * room list
+ * room name -> {
+ *     clients_limit: number,
+ *     client_list: [], // WebSocket object list
+ * }
+ */
+var room_list = {
+
+};
+
+
+
+
 
 // a event which one of the client connects me
 wss.on('connection', function connection(ws) {
@@ -84,6 +99,8 @@ function ping (ws, argument_list) {
 function subscribe (ws, argument_list) {
 	var channel_name = argument_list[0];
 
+	if(!channel_name) return;
+
 	if(!channel_list[channel_name]) {
 		channel_list[channel_name] = [];
 	}
@@ -107,7 +124,23 @@ function publish (ws, argument_list) {
 }
 
 function create_room (ws, argument_list) {
+	var room_name        = argument_list[0];
+	var client_limit_num = argument_list[1];
 
+	if(!room_name) return;
+
+	if(room_list[room_name]) return; // TODO: error
+
+	room_list[room_name] = {
+		clients_limit: null,
+		client_list: [],
+	};
+
+	if(client_limit_num) {
+		room_list[room_name].clients_limit = client_limit_num;
+	}
+
+	room_list[room_name].client_list.push(ws);
 }
 
 function join (ws, argument_list) {
