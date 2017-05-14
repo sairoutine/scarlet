@@ -51,6 +51,22 @@ function parse_command (data) {
 	return parsed_data;
 }
 
+/*
+ * data format is "COMMAND ARGUMENTS".
+ * ARGUMENTS are splited by space.
+ */
+function create_command (event, argument_list) {
+	var data = "";
+	if(!event) return data;
+
+	var data_list = [].concat([event], argument_list);
+
+	return data_list.join(" ");
+}
+
+
+
+
 
 var EVENT_NAME_TO_FUNCION = {
 	ping:        ping,
@@ -62,7 +78,7 @@ var EVENT_NAME_TO_FUNCION = {
 };
 
 function ping (ws, argument_list) {
-	ws.send("PONG");
+	ws.send(create_command("PONG", argument_list));
 }
 
 function subscribe (ws, argument_list) {
@@ -84,7 +100,7 @@ function publish (ws, argument_list) {
 
 	channel_list[channel_name].forEach(function(client) {
 		if (client !== ws && client.readyState === WebSocket.OPEN) {
-			client.send(message);
+			client.send(create_command("PUBLISHED", [message]));
 		}
 	});
 
