@@ -7,11 +7,9 @@ var wss = new WebSocket.Server({ port: 8080 });
 wss.on('connection', function connection(ws) {
 	// a event which the client sends me
 	ws.on('message', function (data) {
+		var parsed_data = parse_data(data);
 
-		// TODO: parse data
-		// var parsed_data = parse_data(data);
-
-		//if (!parsed_data.event) return;
+		if (!parsed_data.event) return;
 
 		// TODO: create event name to function
 		//var func = EVENT_NAME_TO_FUNCION[ parsed_data.event ];
@@ -29,8 +27,24 @@ wss.on('connection', function connection(ws) {
 	});
 });
 
-function parse_data () {
+/*
+ * data format is "COMMAND ARGUMENTS".
+ * ARGUMENTS are splited by space.
+ */
+function parse_data (data) {
+	var parsed_data = {
+		event: null,
+		arguments: [],
+	};
 
+	if(!data) return parsed_data;
+
+	var splited_data = data.split(" ");
+
+	parsed_data.event     = splited_data.shift();
+	parsed_data.arguments = splited_data;
+
+	return parsed_data;
 }
 
 function subscribe () {
