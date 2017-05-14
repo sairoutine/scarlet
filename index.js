@@ -3,6 +3,9 @@ var WebSocket = require('ws');
 
 var wss = new WebSocket.Server({ port: 8080 });
 
+// TODO: garbage collect the channel_list variables if the client disconnects.
+// TODO: implement: unsubscribe
+
 /*
  * channel list
  * channel name -> subscribe clients list
@@ -10,9 +13,6 @@ var wss = new WebSocket.Server({ port: 8080 });
 var channel_list = {
 
 };
-
-
-
 
 // a event which one of the client connects me
 wss.on('connection', function connection(ws) {
@@ -66,7 +66,13 @@ function ping (ws, argument_list) {
 }
 
 function subscribe (ws, argument_list) {
+	var channel_name = argument_list[0];
 
+	if(!channel_list[channel_name]) {
+		channel_list[channel_name] = [];
+	}
+
+	channel_list[channel_name].push(ws);
 }
 
 function publish (ws, argument_list) {
