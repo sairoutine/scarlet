@@ -65,24 +65,24 @@ function ping (ws, argument_list) {
 	ws.send("PONG");
 }
 
-function subscribe () {
+function subscribe (ws, argument_list) {
 
 }
 
-function publish () {
+function publish (ws, argument_list) {
 
 }
 
-function create_room () {
+function create_room (ws, argument_list) {
 
 }
 
-function join () {
+function join (ws, argument_list) {
 //-> ROOM_CLIENTS_LIMIT
 
 }
 
-function send_data () {
+function send_data (ws, argument_list) {
 
 }
 
