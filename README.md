@@ -33,10 +33,11 @@ NOTE: you can publish a channel you don't subscribe.
 
 
 ```
-CREATE_ROOM [room name] [clients limit]
+CREATE_ROOM [clients limit]
 ```
 
-Create a room which names [room name].
+Create a room.
+If Scarlet succeed to create a room, she notifies `SUCCEEDED_CREATE_ROOM [room name]` event to you.
 If you specify [clients limit] and the number of room clients equals limit,
 Scarlet server notifies `ROOM_CLIENTS_LIMIT [room name]` event to room clients.
 
@@ -64,6 +65,11 @@ events the clients are notified.
 
 ```
 PUBLISHED [message]
+```
+**WIP**
+
+```
+SUCCEEDED_CREATE_ROOM [room name]
 ```
 **WIP**
 
