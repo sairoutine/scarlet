@@ -28,6 +28,7 @@ PUBLISH [channel name] [message]
 ```
 
 publish message to channel someone subscribes.
+the clients which subscribes the channel get `PUBLISHED [message]` event.
 NOTE: you can publish a channel you don't subscribe.
 
 
@@ -50,6 +51,19 @@ Join the room someone created.
 SEND_DATA [room name] [data]
 ```
 Send your data to room clients.
+
+## EVENT
+events the clients are notified.
+
+```
+PUBLISHED [message]
+```
+
+```
+ROOM_CLIENTS_LIMIT [room name]`
+```
+
+
 
 ## Roadmap
 
