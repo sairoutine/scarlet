@@ -16,6 +16,8 @@ var wss = new WebSocket.Server({ port: 8080 });
 // TODO: garbage collect the channel_list variables if the client disconnects.
 // TODO: implement: unsubscribe
 // TODO: ERROR event must be required
+// TODO: implement: quit command
+// TODO: split arguments BY argument_num defined in each function in parsed_command function
 /*
  * channel list
  * channel name -> WebSocket object list which subscribes channel
