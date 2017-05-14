@@ -164,7 +164,7 @@ function join (ws, argument_list) {
 	if(room_data.clients_limit && room_data.clients_limit <= room_data.client_list.length) {
 		room_data.client_list.forEach(function(client) {
 			if (client.readyState === WebSocket.OPEN) {
-				client.send(create_command("ROOM_CLIENTS_LIMIT"));
+				client.send(create_command("ROOM_CLIENTS_LIMIT", [room_name]));
 			}
 		});
 	}
