@@ -1,12 +1,13 @@
 'use strict';
 
 var EVENT_NAME_TO_FUNCION = {
-	ping:        ping,
-	subscribe:   subscribe,
-	publish:     publish,
-	create_room: create_room,
-	join:        join,
-	send_data:   send_data,
+	ping:          ping,
+	subscribe:     subscribe,
+	publish:       publish,
+	create_room:   create_room,
+	join:          join,
+	get_room_list: get_room_list,
+	send_data:     send_data,
 };
 
 var WebSocket = require('ws');
@@ -16,7 +17,7 @@ var wss = new WebSocket.Server({ port: 8080 });
 // TODO: garbage collect the channel_list variables if the client disconnects.
 // TODO: implement: unsubscribe
 // TODO: ERROR event must be required
-// TODO: implement: quit command
+// TODO: implement: quit,get_room_member_list command
 // TODO: split arguments BY argument_num defined in each function in parsed_command function
 /*
  * channel list
@@ -168,6 +169,13 @@ function join (ws, argument_list) {
 		});
 	}
 }
+
+function get_room_list (ws, argument_list) {
+	var room_name_list = Object.keys(room_list);
+
+	ws.send(create_command("GOT_ROOM_LIST", [room_name_list.join(",")]));
+}
+
 
 function send_data (ws, argument_list) {
 	var room_name = argument_list[0];

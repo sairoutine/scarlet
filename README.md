@@ -48,6 +48,12 @@ JOIN [room name]
 Join the room someone created.
 
 ```
+GET_ROOM_LIST
+```
+get room list someone has already created.
+Scarlet server notifies `GOT_ROOM_LIST [room list]` event to you.
+
+```
 SEND_DATA [room name] [data]
 ```
 Send your data to room clients.
@@ -65,6 +71,11 @@ PUBLISHED [message]
 ROOM_CLIENTS_LIMIT [room name]`
 ```
 **WIP**
+
+```
+GOT_ROOM_LIST [room list]`
+```
+room list data is splited by , (comma).
 
 ```
 SENT [message]
