@@ -143,9 +143,23 @@ function create_room (ws, argument_list) {
 	room_list[room_name].client_list.push(ws);
 }
 
+// TODO: check the client joins the room twice.
 function join (ws, argument_list) {
-//-> ROOM_CLIENTS_LIMIT
+	var room_name = argument_list[0];
 
+	if(!room_name) return;
+
+	var room_data = room_list[room_name];
+
+	if(!room_data) return; // TODO: error
+
+	if(room_data.clients_limit <= room_data.client_list.length) return; // TODO: error
+
+	room_data.client_list.push(ws);
+
+	if(room_data.clients_limit <= room_data.client_list.length) {
+		ws.send(create_command("ROOM_CLIENTS_LIMIT"));
+	}
 }
 
 function send_data (ws, argument_list) {
