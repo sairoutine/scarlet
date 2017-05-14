@@ -118,13 +118,3 @@ function join (ws, argument_list) {
 function send_data (ws, argument_list) {
 
 }
-
-/*
-// Broadcast to everyone else.
-wss.clients.forEach(function each(client) {
-	if (client !== ws && client.readyState === WebSocket.OPEN) {
-		client.send(data);
-	}
-});
-*/
-
