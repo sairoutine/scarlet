@@ -8,6 +8,7 @@ var EVENT_NAME_TO_FUNCION = {
 	c2s_join:          join,
 	c2s_get_room_list: get_room_list,
 	c2s_send_data:     send_data,
+	c2s_join_random:   join_random,
 };
 
 var WebSocket = require('ws');
@@ -19,6 +20,9 @@ var wss = new WebSocket.Server({ port: 8080 });
 // TODO: ERROR event must be required
 // TODO: implement: quit,get_room_member_list command
 // TODO: split arguments BY argument_num defined in each function in parsed_command function
+// TODO: server should return json data.
+
+
 /*
  * channel list
  * channel name -> WebSocket object list which subscribes channel
@@ -198,4 +202,25 @@ function send_data (ws, argument_list) {
 			client.send(create_command("S2C_SENT", [data]));
 		}
 	});
+}
+
+function join_random(ws, argument_list) {
+	// TODO: choose room randomly
+	for (var room_name in room_list) {
+		var room_data = room_list[room_name];
+
+		// If there is a joinable room
+		if(room_data.client_list.length > 0) {
+			if (!room_data.clients_limit || room_data.clients_limit > room_data.client_list.length) {
+				join(ws, [room_name]);
+
+				ws.send(create_command("S2C_SUCCEEDED_JOIN_ROOM", [room_name]));
+
+				return;
+			}
+		}
+	}
+
+	// there is no room client can join.
+	ws.send(create_command("S2C_NO_JOINABLE_ROOM"));
 }

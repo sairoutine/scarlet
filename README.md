@@ -49,6 +49,13 @@ C2S_JOIN [room name]
 Join the room someone created.
 
 ```
+C2S_JOIN_RANDOM
+```
+Join the room the server choice.
+Scarlet server notifies `S2C_SUCCEEDED_JOIN_ROOM [room name]` event to you.
+If there is no room you can join, Scarlet server notifies `S2C_NO_JOINABLE_ROOM` event to you.
+
+```
 C2S_GET_ROOM_LIST
 ```
 get room list someone has already created.
