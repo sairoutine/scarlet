@@ -1,13 +1,13 @@
 'use strict';
 
 var EVENT_NAME_TO_FUNCION = {
-	ping:          ping,
-	subscribe:     subscribe,
-	publish:       publish,
-	create_room:   create_room,
-	join:          join,
-	get_room_list: get_room_list,
-	send_data:     send_data,
+	c2s_ping:          ping,
+	c2s_subscribe:     subscribe,
+	c2s_publish:       publish,
+	c2s_create_room:   create_room,
+	c2s_join:          join,
+	c2s_get_room_list: get_room_list,
+	c2s_send_data:     send_data,
 };
 
 var WebSocket = require('ws');
@@ -99,7 +99,7 @@ function create_command (event, argument_list) {
 
 
 function ping (ws, argument_list) {
-	ws.send(create_command("PONG", argument_list));
+	ws.send(create_command("S2C_PONG", argument_list));
 }
 
 function subscribe (ws, argument_list) {
@@ -123,7 +123,7 @@ function publish (ws, argument_list) {
 
 	channel_list[channel_name].forEach(function(client) {
 		if (client !== ws && client.readyState === WebSocket.OPEN) {
-			client.send(create_command("PUBLISHED", [message]));
+			client.send(create_command("S2C_PUBLISHED", [message]));
 		}
 	});
 
@@ -147,7 +147,7 @@ function create_room (ws, argument_list) {
 
 	room_list[room_name].client_list.push(ws);
 
-	ws.send(create_command("SUCCEEDED_CREATE_ROOM", [room_name]));
+	ws.send(create_command("S2C_SUCCEEDED_CREATE_ROOM", [room_name]));
 }
 
 // TODO: check the client joins the room twice.
@@ -167,7 +167,7 @@ function join (ws, argument_list) {
 	if(room_data.clients_limit && room_data.clients_limit <= room_data.client_list.length) {
 		room_data.client_list.forEach(function(client) {
 			if (client.readyState === WebSocket.OPEN) {
-				client.send(create_command("ROOM_CLIENTS_LIMIT", [room_name]));
+				client.send(create_command("S2C_ROOM_CLIENTS_LIMIT", [room_name]));
 			}
 		});
 	}
@@ -176,7 +176,7 @@ function join (ws, argument_list) {
 function get_room_list (ws, argument_list) {
 	var room_name_list = Object.keys(room_list);
 
-	ws.send(create_command("GOT_ROOM_LIST", [room_name_list.join(",")]));
+	ws.send(create_command("S2C_GOT_ROOM_LIST", [room_name_list.join(",")]));
 }
 
 
@@ -195,7 +195,7 @@ function send_data (ws, argument_list) {
 
 	room_data.client_list.forEach(function(client) {
 		if (client !== ws && client.readyState === WebSocket.OPEN) {
-			client.send(create_command("SENT", [data]));
+			client.send(create_command("S2C_SENT", [data]));
 		}
 	});
 }
