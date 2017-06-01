@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "cli": "wscat -c ws://localhost:8080",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/index.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,8 @@
     "ws": "2.2.3"
   },
   "devDependencies": {
+    "chai": "4.0.1",
+    "mocha": "3.4.2",
     "wscat": "2.0.0"
   }
 }
