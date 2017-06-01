@@ -63,6 +63,28 @@ wss.on('connection', function connection(ws) {
 
 		func(ws, parsed_data.argument_list);
 	});
+
+	ws.on('close', function() {
+		// exit room the client joined
+		for (var room_name in room_list) {
+			var room = room_list[room_name];
+
+			for (var i = 0, len = room.client_list.length; i < len; i++) {
+				var room_ws = room.client_list[i];
+
+				if (room_ws === ws) {
+					// exit room
+					room.client_list.splice(i, 1);
+
+					if (room.client_list.length === 0) {
+						// delete the room no one joins.
+						delete room_list[room_name];
+					}
+				}
+			}
+		}
+	});
+
 });
 
 /*
