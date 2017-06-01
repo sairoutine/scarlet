@@ -136,6 +136,8 @@ function publish (ws, argument_list) {
 function create_room (ws, argument_list) {
 	var client_limit_num = argument_list[0];
 
+	if (!client_limit_num) return; // TODO: error
+
 	var room_name = ++room_id; // create room name
 
 	if(room_list[room_name]) return; // TODO: error
@@ -145,9 +147,7 @@ function create_room (ws, argument_list) {
 		client_list: [],
 	};
 
-	if(client_limit_num) {
-		room_list[room_name].clients_limit = client_limit_num;
-	}
+	room_list[room_name].clients_limit = client_limit_num;
 
 	room_list[room_name].client_list.push(ws);
 
@@ -164,11 +164,11 @@ function join (ws, argument_list) {
 
 	if(!room_data) return; // TODO: error
 
-	if(room_data.clients_limit && room_data.clients_limit <= room_data.client_list.length) return; // TODO: error
+	if(room_data.clients_limit <= room_data.client_list.length) return; // TODO: error
 
 	room_data.client_list.push(ws);
 
-	if(room_data.clients_limit && room_data.clients_limit <= room_data.client_list.length) {
+	if(room_data.clients_limit <= room_data.client_list.length) {
 		room_data.client_list.forEach(function(client) {
 			if (client.readyState === WebSocket.OPEN) {
 				client.send(create_command("S2C_ROOM_CLIENTS_LIMIT", [room_name]));
@@ -211,7 +211,7 @@ function join_random(ws, argument_list) {
 
 		// If there is a joinable room
 		if(room_data.client_list.length > 0) {
-			if (!room_data.clients_limit || room_data.clients_limit > room_data.client_list.length) {
+			if (room_data.clients_limit > room_data.client_list.length) {
 				join(ws, [room_name]);
 
 				ws.send(create_command("S2C_SUCCEEDED_JOIN_ROOM", [room_name]));
