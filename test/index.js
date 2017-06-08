@@ -11,32 +11,41 @@ var WebSocket = require('ws');
 // start scarlet server
 
 describe('Scarlet', function(){
-	var ws;
+	var ws1, ws2;
+	/*
 	before(function(done){
 		exec("npm start", function() {
 			done();
 		});
 	});
-
+	*/
 	beforeEach(function(done){
-		ws = new WebSocket('ws://localhost:8080/');
-		ws.on('open', function () {
+		ws1 = new WebSocket('ws://localhost:8080/');
+		ws1.on('open', function () {
 			done();
 		});
 	});
 
 	afterEach(function(done) {
-		ws.close();
+		ws1.close();
 		done();
 	});
 
+	/*
+	after(function(done){
+		exec("killall scarlet", function() {
+			done();
+		});
+	});
+	*/
+
 	it('should return pong', function(done){
-		ws.on('message', function (data) {
+		ws1.on('message', function (data) {
 			if (data === 'S2C_PONG') {
 				done();
 			}
 		});
-		ws.send("C2S_PING");
+		ws1.send("C2S_PING");
 	});
 
 });
