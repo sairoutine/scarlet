@@ -1,5 +1,8 @@
 'use strict';
 
+var DEBUG = true;
+
+
 var EVENT_NAME_TO_FUNCION = {
 	c2s_ping:          ping,
 	c2s_subscribe:     subscribe,
@@ -11,6 +14,11 @@ var EVENT_NAME_TO_FUNCION = {
 	c2s_join_random:   join_random,
 };
 
+if (DEBUG) {
+	EVENT_NAME_TO_FUNCION["c2s_dump"] = dump;
+}
+
+var moment = require("moment");
 var WebSocket = require('ws');
 
 var wss = new WebSocket.Server({ port: 8080 });
@@ -50,8 +58,17 @@ var room_id = 0;
 
 // a event which one of the client connects me
 wss.on('connection', function connection(ws) {
+	if(DEBUG) {
+		log("ws: open");
+	}
+
 	// a event which the client sends me
 	ws.on('message', function (data) {
+
+		if(DEBUG) {
+			log(data);
+		}
+
 		var parsed_data = parse_command(data);
 
 		if (!parsed_data.event) return;
@@ -65,6 +82,10 @@ wss.on('connection', function connection(ws) {
 	});
 
 	ws.on('close', function() {
+		if(DEBUG) {
+			log("ws: close");
+		}
+
 		// exit room the client joined
 		for (var room_name in room_list) {
 			var room = room_list[room_name];
@@ -246,3 +267,28 @@ function join_random(ws, argument_list) {
 	// there is no room client can join.
 	ws.send(create_command("S2C_NO_JOINABLE_ROOM"));
 }
+
+function dump (ws, argument_list) {
+
+	var room_data = [];
+
+	for (var room_id in room_list) {
+		var room = room_list[room_id];
+		room_data.push({
+			id: room_id,
+			clients_limit: room.clients_limit,
+			clients_num: room.client_list.length,
+		});
+	}
+	ws.send(create_command("S2C_DUMP", [JSON.stringify(room_data)]));
+}
+
+function log(data) {
+	var m = moment();
+	var time = m.format('YYYY/MM/DD HH:mm:ss');
+
+	console.log(time + " " + data);
+}
+
+
+
