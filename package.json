@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/sairoutine/scarlet#readme",
   "dependencies": {
+    "moment": "2.18.1",
     "ws": "2.2.3"
   },
   "devDependencies": {
